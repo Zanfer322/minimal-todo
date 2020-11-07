@@ -47,7 +47,9 @@ END;
 
 CREATE TABLE IF NOT EXISTS tags (
     id INTEGER PRIMARY KEY,
-    tag TEXT UNIQUE NOT NULL
+    uuid TEXT UNIQUE NOT NULL,
+    tag TEXT UNIQUE NOT NULL,
+    created_at REAL NOT NULL
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_tags_tag ON tags (tag);

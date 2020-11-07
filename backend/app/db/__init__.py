@@ -7,6 +7,7 @@ from .todo import (
     get_filtered_todos,
     search_todo,
 )
+from .exceptions import DBException
 
 __all__ = [
     "init_db",
@@ -19,4 +20,5 @@ __all__ = [
     "get_all_todos",
     "get_filtered_todos",
     "search_todo",
+    "DBException",
 ]
