@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 import uuid
-from typing import List, Optional
+from typing import Any, List, Optional, cast, Set
 from app import models
 from .exceptions import DBException
 
@@ -28,14 +28,31 @@ def create_tag(conn: sqlite3.Connection, name: str) -> models.Tag:
 def get_tag(conn: sqlite3.Connection, id: str) -> Optional[models.Tag]:
     cur = conn.execute("select uuid, tag, created_at from tags where uuid=?", (id,))
     row = cur.fetchone()
-    if row is None:
-        return None
+    return _row_to_tag(row)
 
-    return models.Tag(id=row[0], name=row[1], created_at=datetime.fromtimestamp(row[2]))
+
+def get_tag_by_name(conn: sqlite3.Connection, name: str) -> Optional[models.Tag]:
+    cur = conn.execute("select uuid, tag, created_at from tags where tag=?", (name,))
+    row = cur.fetchone()
+    return _row_to_tag(row)
 
 
 def get_all_tags(conn: sqlite3.Connection) -> List[models.Tag]:
     cur = conn.execute("select uuid, tag, created_at from tags")
     rows = cur.fetchall()
+    tags = [_row_to_tag(row) for row in rows]
+    return cast(List[models.Tag], tags)
 
-    return [models.Tag(id=row[0], name=row[1], created_at=row[2]) for row in rows]
+
+def get_tags_by_name(
+    conn: sqlite3.Connection, names: Set[str]
+) -> List[Optional[models.Tag]]:
+    # TODO: optimize
+    return [get_tag_by_name(conn, name) for name in names]
+
+
+def _row_to_tag(row: Optional[Any]) -> Optional[models.Tag]:
+    if row is None:
+        return row
+
+    return models.Tag(id=row[0], name=row[1], created_at=datetime.fromtimestamp(row[2]))
