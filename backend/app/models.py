@@ -32,3 +32,13 @@ class Tag(BaseModel):
     id: str
     name: str
     created_at: datetime
+
+
+class CreateTag(BaseModel):
+    name: str
+
+
+class APITag(BaseModel):
+    id: str
+    name: str
+    created_at: datetime
