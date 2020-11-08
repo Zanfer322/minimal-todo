@@ -1,8 +1,8 @@
 from typing import List, Optional
+
 from fastapi import APIRouter, HTTPException, status
 
-from app import models, db
-
+from app import db, models
 
 router = APIRouter()
 

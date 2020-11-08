@@ -1,7 +1,9 @@
 import sqlite3
+
+import pytest
+
 from app import db
 from tests import helpers
-import pytest
 
 
 def test_create_tag(conn: sqlite3.Connection) -> None:

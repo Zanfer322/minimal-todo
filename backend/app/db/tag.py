@@ -1,10 +1,11 @@
 import sqlite3
-from datetime import datetime
 import uuid
-from typing import Any, List, Optional, cast, Set
-from app import models
-from .exceptions import DBException
+from datetime import datetime
+from typing import Any, List, Optional, Set, cast
 
+from app import models
+
+from .exceptions import DBException
 
 _ROWS = "id, uuid, tag, created_at"
 

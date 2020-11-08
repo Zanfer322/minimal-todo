@@ -5,8 +5,8 @@ from typing import Any, List, Optional, Set, Union, cast
 
 from app import models
 
-from .tag import get_tags_by_name, get_tag_by_db_id
 from .exceptions import DBException
+from .tag import get_tag_by_db_id, get_tags_by_name
 
 _ROWS = "uuid, contents, tags, state, created_at, updated_at, state_updated_at"
 

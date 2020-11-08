@@ -1,7 +1,9 @@
-from datetime import datetime
-import pytest
 import sqlite3
 import time
+from datetime import datetime
+
+import pytest
+
 from app import db, models
 from tests import helpers
 

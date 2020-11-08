@@ -4,7 +4,7 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from app import config, app, db
+from app import app, config, db
 from app.config import Config
 
 

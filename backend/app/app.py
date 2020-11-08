@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.routes import todo, tag
+
+from app.routes import tag, todo
 
 
 def create_app() -> FastAPI:
