@@ -20,6 +20,11 @@ class Todo(BaseModel):
     state_updated_at: datetime
 
 
+class CreateTodo(BaseModel):
+    contents: str
+    tags: Set[str]
+
+
 class TodoUpdate(BaseModel):
     id: str
     contents: str

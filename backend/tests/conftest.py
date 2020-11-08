@@ -26,6 +26,4 @@ def conn() -> sqlite3.Connection:
 @pytest.fixture
 def client() -> TestClient:
     db.get_connection.cache_clear()
-    conn = db.get_connection()
-    db.init_db(conn)
     return TestClient(app)
