@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 import sqlite3
 import time
@@ -80,8 +81,98 @@ def test_update_todo_with_state_change(conn: sqlite3.Connection) -> None:
 
 
 def test_update_unknown_todo(conn: sqlite3.Connection) -> None:
-    pass
+    todo_update = models.TodoUpdate(
+        id="unknown-id", contents="contents", tags=set(), state=models.TodoState.ongoing
+    )
+    with pytest.raises(db.DBException):
+        db.update_todo(conn, todo_update)
 
 
 def test_get_unknown_todo(conn: sqlite3.Connection) -> None:
-    pass
+    todo = db.get_todo(conn, "unknown-id")
+    assert todo is None
+
+    todos = db.get_all_todos(conn)
+    assert len(todos) == 0
+
+
+def _create_dummy_data(conn: sqlite3.Connection) -> None:
+    conn.executemany(
+        "INSERT INTO tags (id, uuid, tag, created_at) VALUES (?, ?, ?, ?)",
+        [
+            (1, "1", "t1", 100_000),
+            (2, "2", "t2", 100_000),
+            (3, "3", "t3", 100_000),
+        ],
+    )
+
+    conn.executemany(
+        """
+        INSERT INTO todo
+        (uuid, contents, tags, state, created_at, updated_at, state_updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            ("1", "c1", "3 2 1", "ongoing", 110_000, 110_00, 110_000),
+            ("2", "c2", "2", "done", 120_000, 120_000, 120_000),
+            ("3", "c3", "3", "cancelled", 130_000, 130_000, 130_000),
+            ("4", "c4", "1", "cancelled", 210_000, 210_000, 210_000),
+            ("5", "c5", "2", "ongoing", 220_000, 220_000, 220_000),
+            ("6", "c6", "3", "done", 230_000, 230_000, 230_000),
+        ],
+    )
+
+
+def test_can_filter_by_state(conn: sqlite3.Connection) -> None:
+    _create_dummy_data(conn)
+    todos = db.get_filtered_todos(conn, state=models.TodoState.done)
+
+    assert set([t.id for t in todos]) == {"2", "6"}
+
+
+def test_can_filter_by_start_time(conn: sqlite3.Connection) -> None:
+    _create_dummy_data(conn)
+    todos = db.get_filtered_todos(conn, start_time=datetime.fromtimestamp(200_000))
+
+    assert set([t.id for t in todos]) == {"4", "5", "6"}
+
+
+def test_can_filter_by_end_time(conn: sqlite3.Connection) -> None:
+    _create_dummy_data(conn)
+    todos = db.get_filtered_todos(conn, end_time=datetime.fromtimestamp(200_000))
+
+    assert set([t.id for t in todos]) == {"1", "2", "3"}
+
+
+def test_can_filter_by_both_time(conn: sqlite3.Connection) -> None:
+    _create_dummy_data(conn)
+    todos = db.get_filtered_todos(
+        conn,
+        start_time=datetime.fromtimestamp(115_000),
+        end_time=datetime.fromtimestamp(200_000),
+    )
+
+    assert set([t.id for t in todos]) == {"2", "3"}
+
+
+def test_can_filter_by_tag(conn: sqlite3.Connection) -> None:
+    _create_dummy_data(conn)
+    todos = db.get_filtered_todos(conn, tag_names={"t1"})
+    assert set([t.id for t in todos]) == {"1", "4"}
+
+    todos = db.get_filtered_todos(conn, tag_names={"t2", "t1"})
+    assert set([t.id for t in todos]) == {"1"}
+
+
+def test_full_text_search(conn: sqlite3.Connection) -> None:
+    db.create_todo(conn, "normal content", set())
+    db.create_todo(conn, "special content", set())
+    db.create_todo(conn, "very content special", set())
+
+    todos = db.search_todo(conn, "content", limit=2)
+    assert len(todos) == 2
+    assert set([t.contents for t in todos]) == {"normal content", "special content"}
+
+    todos = db.search_todo(conn, "very special")
+    assert len(todos) == 1
+    assert todos[0].contents == "very content special"

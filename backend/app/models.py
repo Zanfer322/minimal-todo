@@ -28,6 +28,7 @@ class TodoUpdate(BaseModel):
 
 
 class Tag(BaseModel):
+    db_id: int
     id: str
     name: str
     created_at: datetime
