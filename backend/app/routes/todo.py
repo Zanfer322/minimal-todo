@@ -11,7 +11,10 @@ router = APIRouter()
 @router.post("/", response_model=models.Todo)
 def create_todo(create_todo: models.CreateTodo) -> models.Todo:
     conn = db.get_connection()
-    todo = db.create_todo(conn, create_todo.contents, create_todo.tags)
+    try:
+        todo = db.create_todo(conn, create_todo.contents, create_todo.tags)
+    except db.DBException as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, str(e))
     return todo
 
 

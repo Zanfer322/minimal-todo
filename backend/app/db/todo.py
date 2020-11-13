@@ -24,7 +24,6 @@ def _get_tag_field(conn: sqlite3.Connection, tag_names: Set[str]) -> Optional[st
         return None
     tags = get_tags_by_name(conn, tag_names)
     x = " ".join([str(t.db_id) for t in tags if t is not None])
-    print(x)
     return x
 
 
@@ -62,6 +61,7 @@ def create_todo(
             created_at.timestamp(),
         ),
     )
+    conn.commit()
 
     return models.Todo(
         id=id,
@@ -103,6 +103,7 @@ def update_todo(
             todo_update.id,
         ),
     )
+    conn.commit()
 
     todo.contents = todo_update.contents
     todo.tags = todo_update.tags

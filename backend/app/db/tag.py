@@ -26,6 +26,7 @@ def create_tag(conn: sqlite3.Connection, name: str) -> models.Tag:
         raise
 
     tag = get_tag(conn, id)
+    conn.commit()
     return cast(models.Tag, tag)
 
 

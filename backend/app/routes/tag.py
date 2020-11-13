@@ -35,5 +35,8 @@ def get_tag(id: str) -> models.Tag:
 @router.post("/", response_model=models.APITag)
 def create_tag(create_tag: models.CreateTag) -> models.Tag:
     conn = db.get_connection()
-    tag = db.create_tag(conn, create_tag.name)
+    try:
+        tag = db.create_tag(conn, create_tag.name)
+    except db.DBException as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, str(e))
     return tag
