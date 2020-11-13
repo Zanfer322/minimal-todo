@@ -2,4 +2,8 @@
 
 <button (click)="createTag()">Create Tag</button>
 
-<app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>
+<div class="center">
+  <div class="todo-list">
+    <app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>
+  </div>
+</div>

@@ -1,5 +1,53 @@
 .todo {
-  border: solid 1px;
-  margin: 10px;
+  display: flex;
+  align-items: center;
+
+  padding: 0.5em 0;
+  border-bottom: 2px solid #eceff1;
+}
+
+.todo-content {
+  --shadow-color: hsla(212, 86%, 44%, 0.15);
+
   padding: 10px;
+  font-size: 1.5em;
+  padding: 1em;
+
+  // box-shadow: 0 0.15em 0.5em var(--shadow-color);
+  // border-radius: 0.3em;
+
+  flex-grow: 1;
+}
+
+.todo-state {
+  font-size: 2.5em;
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+
+.todo-done {
+  color: #00e676;
+}
+
+.todo-cancelled {
+  color: #cfd8dc;
+}
+
+.dim {
+  color: #90a4ae;
+}
+
+.todo-bin {
+  color: #90a4ae;
+  cursor: pointer;
+  margin-right: 1em;
+  display: none;
+}
+
+.todo:hover > .todo-bin {
+  display: inline;
+}
+
+.todo-bin:hover {
+  color: black;
 }

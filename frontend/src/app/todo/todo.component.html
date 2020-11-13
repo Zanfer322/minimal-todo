@@ -1,4 +1,27 @@
-<div class="todo" *ngIf="todo">
+<div class="todo">
+  <div class="todo-state">
+    <i
+      [ngClass]="{
+        'fa fa-check-square todo-done': todo.state == 'done',
+        'far fa-square todo-ongoing': todo.state == 'ongoing',
+        'fas fa-minus-square todo-cancelled': todo.state == 'cancelled'
+      }"
+    ></i>
+  </div>
+  <div class="todo-content" [ngClass]="todo.state == 'cancelled' ? 'dim' : ''">
+    {{ todo.contents }}
+  </div>
+  <div class="todo-bin">
+    <i
+      [ngClass]="
+        todo.state == 'cancelled' ? 'fas fa-recycle' : 'fas fa-trash-alt'
+      "
+    ></i>
+  </div>
+</div>
+
+<!-- <div class="todo" *ngIf="todo">
+  <div>id: {{ todo.id }}</div>
   <div>Content: {{ todo.contents }}</div>
   <div>State: {{ todo.state }}</div>
   <div>Tags: {{ todo.tags }}</div>
@@ -6,4 +29,4 @@
   <div>Created at: {{ todo.createdAt }}</div>
   <div>Updated at: {{ todo.updatedAt }}</div>
   <div>State updated at: {{ todo.stateUpdatedAt }}</div>
-</div>
+</div> -->
