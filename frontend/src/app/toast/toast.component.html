@@ -1,0 +1,15 @@
+<div class="toast-list">
+  <div
+    class="toast"
+    *ngFor="let toast of toasts; index as toastIndex"
+    [ngClass]="{
+      'toast-info': toast.type == 'info',
+      'toast-success': toast.type == 'success',
+      'toast-error': toast.type == 'error'
+    }"
+  >
+    <i class="toast-close fas fa-times" (click)="removeToast(toastIndex)"></i>
+    <div class="toast-title">{{ toast.title }}</div>
+    <div class="toast-content">{{ toast.message }}</div>
+  </div>
+</div>

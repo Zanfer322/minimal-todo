@@ -27,3 +27,9 @@ export interface Tag {
   name: string;
   createdAt: Date;
 }
+
+export interface Toast {
+  title: string;
+  message: string;
+  type: 'info' | 'success' | 'error';
+}
