@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Tag, Todo } from './models';
+import { CreateTodo, FilterTodo, Tag, Todo, UpdateTodo } from './models';
 import { ToastService } from './toast.service';
 
 interface ErrorRes {
@@ -52,6 +52,50 @@ export class TodoService {
     return tags;
   }
 
+  async createTodo(createTodo: CreateTodo): Promise<Todo | undefined> {
+    try {
+      var data = await this.http.post('/api/todo/', createTodo).toPromise();
+    } catch (e) {
+      this.showErrorToast(e);
+      return undefined;
+    }
+
+    let todo = this.toTodo(data);
+    return todo;
+  }
+
+  async getAllTodo(filter?: FilterTodo): Promise<Todo[] | undefined> {
+    let params: HttpParams;
+    if (filter == null) {
+      params = new HttpParams();
+    } else {
+      params = this.toFilterParams(filter);
+    }
+
+    try {
+      var dataArr = await this.http
+        .get<any[]>('/api/todo/', { params })
+        .toPromise();
+    } catch (e) {
+      this.showErrorToast(e);
+      return undefined;
+    }
+    let todo = dataArr.map((data) => this.toTodo(data));
+    return todo;
+  }
+
+  async updateTodo(updateTodo: UpdateTodo): Promise<Todo | undefined> {
+    try {
+      var data = await this.http.put('/api/todo/', updateTodo).toPromise();
+    } catch (e) {
+      this.showErrorToast(e);
+      return undefined;
+    }
+
+    let todo = this.toTodo(data);
+    return todo;
+  }
+
   private toTag(data: any): Tag {
     return {
       id: data.id,
@@ -70,6 +114,20 @@ export class TodoService {
       updatedAt: new Date(data['updated_at']),
       stateUpdatedAt: new Date(data['state_updated_at']),
     };
+  }
+
+  private toFilterParams(filter: FilterTodo): HttpParams {
+    let params = new HttpParams({
+      fromObject: {
+        state: filter.state,
+        start_time: filter.startTime?.toISOString(),
+        end_time: filter.endTime?.toISOString(),
+        tags: filter.tags,
+        limit: filter.limit.toString(),
+        offset: filter.limit.toString(),
+      },
+    });
+    return params;
   }
 
   private showErrorToast(res: ErrorRes) {

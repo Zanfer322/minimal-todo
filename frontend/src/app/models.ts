@@ -22,6 +22,15 @@ export interface UpdateTodo {
   tags: string[];
 }
 
+export interface FilterTodo {
+  state?: TodoState;
+  startTime?: Date;
+  endTime?: Date;
+  tags?: string[];
+  limit?: number;
+  offset?: number;
+}
+
 export interface Tag {
   id: string;
   name: string;
