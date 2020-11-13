@@ -31,6 +31,12 @@ export interface FilterTodo {
   offset?: number;
 }
 
+export interface SearchTodo {
+  searchTerm: string;
+  limit?: number;
+  offset?: number;
+}
+
 export interface Tag {
   id: string;
   name: string;

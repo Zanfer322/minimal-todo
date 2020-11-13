@@ -1,1 +1,5 @@
 <p>todo-list works!</p>
+
+<button (click)="createTag()">Create Tag</button>
+
+<app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>

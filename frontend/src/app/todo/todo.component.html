@@ -1,1 +1,9 @@
-<p>todo works!</p>
+<div class="todo" *ngIf="todo">
+  <div>Content: {{ todo.contents }}</div>
+  <div>State: {{ todo.state }}</div>
+  <div>Tags: {{ todo.tags }}</div>
+
+  <div>Created at: {{ todo.createdAt }}</div>
+  <div>Updated at: {{ todo.updatedAt }}</div>
+  <div>State updated at: {{ todo.stateUpdatedAt }}</div>
+</div>

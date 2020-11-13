@@ -1,6 +1,17 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateTodo, FilterTodo, Tag, Todo, UpdateTodo } from './models';
+import {
+  CreateTodo,
+  FilterTodo,
+  SearchTodo,
+  Tag,
+  Todo,
+  UpdateTodo,
+} from './models';
 import { ToastService } from './toast.service';
 
 interface ErrorRes {
@@ -84,6 +95,21 @@ export class TodoService {
     return todo;
   }
 
+  async searchTodo(searchTodo: SearchTodo): Promise<Todo[] | undefined> {
+    let params = this.toSearchParams(searchTodo);
+    try {
+      var dataArr = await this.http
+        .get<any[]>('/api/todo/search', { params })
+        .toPromise();
+    } catch (e) {
+      this.showErrorToast(e);
+      return undefined;
+    }
+
+    let todo = dataArr.map((data) => this.toTodo(data));
+    return todo;
+  }
+
   async updateTodo(updateTodo: UpdateTodo): Promise<Todo | undefined> {
     try {
       var data = await this.http.put('/api/todo/', updateTodo).toPromise();
@@ -125,6 +151,17 @@ export class TodoService {
         tags: filter.tags,
         limit: filter.limit.toString(),
         offset: filter.limit.toString(),
+      },
+    });
+    return params;
+  }
+
+  private toSearchParams(search: SearchTodo): HttpParams {
+    let params = new HttpParams({
+      fromObject: {
+        search_term: search.searchTerm,
+        limit: search.limit.toString(),
+        offset: search.offset.toString(),
       },
     });
     return params;
