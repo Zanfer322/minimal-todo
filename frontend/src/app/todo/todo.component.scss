@@ -9,14 +9,18 @@
 .todo-content {
   --shadow-color: hsla(212, 86%, 44%, 0.15);
 
-  padding: 10px;
   font-size: 1.5em;
   padding: 1em;
+  flex-grow: 1;
 
   // box-shadow: 0 0.15em 0.5em var(--shadow-color);
   // border-radius: 0.3em;
+}
 
+.content-holder {
   flex-grow: 1;
+  display: flex;
+  align-items: center;
 }
 
 .todo-state {
@@ -40,14 +44,61 @@
 .todo-bin {
   color: #90a4ae;
   cursor: pointer;
-  margin-right: 1em;
-  display: none;
+  margin: 0 1em;
+  visibility: hidden;
 }
 
 .todo:hover > .todo-bin {
-  display: inline;
+  visibility: visible;
 }
 
 .todo-bin:hover {
   color: black;
+}
+
+[contenteditable]:focus {
+  outline: 0px;
+}
+
+.todo-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 0 auto;
+}
+
+.todo-tag {
+  background-color: #eeeeee;
+  padding: 0.5em 1em;
+  margin: 0.5em 0.5em;
+  font-size: 0.8em;
+
+  border-radius: 0.3em;
+  white-space: nowrap;
+}
+
+.tag-close {
+  color: #757575;
+  padding-left: 0.5em;
+  cursor: pointer;
+  display: none;
+}
+
+.todo-tag:hover > .tag-close {
+  display: inline;
+}
+
+.todo-tag-add {
+  background-color: #eeeeee;
+  padding: 0.5em 0.75em;
+  margin: 0.5em 0.5em;
+  font-size: 0.8em;
+
+  border-radius: 0.3em;
+  color: #757575;
+  display: none;
+}
+
+.todo-tag-list:hover > .todo-tag-add {
+  display: inline;
 }

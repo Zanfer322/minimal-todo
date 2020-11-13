@@ -8,8 +8,21 @@
       }"
     ></i>
   </div>
-  <div class="todo-content" [ngClass]="todo.state == 'cancelled' ? 'dim' : ''">
-    {{ todo.contents }}
+  <div class="content-holder">
+    <div
+      contenteditable="true"
+      class="todo-content"
+      [ngClass]="todo.state == 'cancelled' ? 'dim' : ''"
+    >
+      {{ todo.contents }}
+    </div>
+    <div class="todo-tag-list" *ngIf="todo.tags.length">
+      <div class="todo-tag" *ngFor="let tag of todo.tags">
+        {{ tag }}
+        <i class="tag-close fa fa-times"></i>
+      </div>
+      <div class="todo-tag-add"><i class="fa fa-plus"></i></div>
+    </div>
   </div>
   <div class="todo-bin">
     <i
