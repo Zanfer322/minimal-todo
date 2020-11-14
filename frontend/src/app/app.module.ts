@@ -9,7 +9,12 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
-  declarations: [AppComponent, TodoComponent, TodoListComponent, ToastComponent],
+  declarations: [
+    AppComponent,
+    TodoComponent,
+    TodoListComponent,
+    ToastComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
