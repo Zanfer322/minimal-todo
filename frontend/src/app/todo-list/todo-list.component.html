@@ -8,6 +8,19 @@
     />
     <i (click)="updateSearch()" class="fas fa-search"></i>
   </div>
+  <div class="top-tag-list">
+    <div
+      *ngFor="let tag of tags"
+      class="top-tag"
+      [ngClass]="activeTags.includes(tag) ? 'top-tag-active' : ''"
+      (click)="toggleTag(tag)"
+    >
+      {{ tag }}
+    </div>
+    <div class="top-tag-add">
+      <i (click)="addTag()" class="fas fa-plus"></i>
+    </div>
+  </div>
   <div class="todo-list">
     <app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>
   </div>

@@ -7,14 +7,17 @@ import { BehaviorSubject } from 'rxjs';
 export class TagAddService {
   active: BehaviorSubject<boolean>;
   cb?: (tag: string) => void;
-  choices: BehaviorSubject<string[]>;
+  choices?: BehaviorSubject<string[]>;
 
   constructor() {
     this.active = new BehaviorSubject<boolean>(false);
     this.choices = new BehaviorSubject<string[]>([]);
   }
 
-  getTagToAdd(choices: string[], cb: (tag: string) => void): string {
+  getTagToAdd(
+    choices: string[] | undefined,
+    cb: (tag: string) => void
+  ): string {
     if (this.active.value == true) {
       console.log('already active');
       return undefined;
@@ -22,7 +25,6 @@ export class TagAddService {
     this.cb = cb;
     this.choices.next(choices);
     this.active.next(true);
-    console.log('activated');
   }
 
   returnActiveTag(tag: string) {

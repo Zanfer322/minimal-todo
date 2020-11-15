@@ -44,6 +44,15 @@ export class TodoFilterService {
     await this.updateTodoList();
   }
 
+  async setTags(tags: string[]) {
+    if (tags.length == 0) {
+      this.tags == undefined;
+    } else {
+      this.tags = tags;
+    }
+    await this.updateTodoList();
+  }
+
   async setState(state?: TodoState) {
     this.state = state;
     await this.updateTodoList();
@@ -80,6 +89,7 @@ export class TodoFilterService {
       tags: this.tags,
       state: this.state,
     };
+    console.log(filter);
     let todoList = await this.todoService.getAllTodo(filter);
     this.todoList.next(todoList);
   }

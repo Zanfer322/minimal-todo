@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { Todo } from '../models';
+import { TagAddService } from '../tag-add.service';
 import { TodoFilterService } from '../todo-filter.service';
 import { TodoService } from '../todo.service';
 
@@ -10,17 +11,22 @@ import { TodoService } from '../todo.service';
 })
 export class TodoListComponent implements OnInit {
   todoList: Todo[];
+  tags: string[];
+  activeTags: string[];
   searchTerm: string;
 
   constructor(
     private todoService: TodoService,
-    private todoFilter: TodoFilterService
+    private todoFilter: TodoFilterService,
+    private tagAddService: TagAddService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.todoFilter.todoList.subscribe(
       (todoList) => (this.todoList = todoList)
     );
+    this.todoService.tags.subscribe((tags) => (this.tags = tags));
+    this.activeTags = [];
   }
 
   async createTodo(): Promise<void> {
@@ -35,5 +41,25 @@ export class TodoListComponent implements OnInit {
     } else {
       await this.todoFilter.setSearchTerm(this.searchTerm);
     }
+  }
+
+  async toggleTag(tag: string) {
+    let index = this.activeTags.indexOf(tag);
+    if (index == -1) {
+      this.activeTags.push(tag);
+    } else {
+      this.activeTags.splice(index, 1);
+    }
+    console.log(this.activeTags);
+    await this.todoFilter.setTags(this.activeTags);
+  }
+
+  async addTag() {
+    this.tagAddService.getTagToAdd(undefined, (tag) => {
+      if (tag == null || tag == '') {
+        return;
+      }
+      this.todoService.createTag(tag);
+    });
   }
 }

@@ -4,6 +4,7 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   CreateTodo,
   FilterTodo,
@@ -25,10 +26,13 @@ interface ErrorRes {
   providedIn: 'root',
 })
 export class TodoService {
+  tags: BehaviorSubject<string[]>;
   private cachedTags?: Tag[];
 
   constructor(private http: HttpClient, private toast: ToastService) {
     this.cachedTags = undefined;
+    this.tags = new BehaviorSubject<string[]>([]);
+    this.getAllTags();
   }
 
   async createTag(name: string): Promise<Tag | undefined> {
@@ -42,6 +46,7 @@ export class TodoService {
     let tag = this.toTag(data);
     if (this.cachedTags) {
       this.cachedTags.push(tag);
+      this.tags.next(this.cachedTags.map((tag) => tag.name));
     }
     return tag;
   }
@@ -60,6 +65,7 @@ export class TodoService {
 
     let tags = dataArr.map((data) => this.toTag(data));
     this.cachedTags = tags;
+    this.tags.next(this.cachedTags.map((tag) => tag.name));
     return tags;
   }
 
@@ -82,10 +88,11 @@ export class TodoService {
     } else {
       params = this.toFilterParams(filter);
     }
+    console.log(params);
 
     try {
       var dataArr = await this.http
-        .get<any[]>('/api/todo/', { params })
+        .get<any[]>('/api/todo', { params })
         .toPromise();
     } catch (e) {
       this.showErrorToast(e);

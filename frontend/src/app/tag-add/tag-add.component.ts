@@ -24,5 +24,6 @@ export class TagAddComponent implements OnInit {
       return;
     }
     this.tagAdd.returnActiveTag(this.tag);
+    this.tag = undefined;
   }
 }

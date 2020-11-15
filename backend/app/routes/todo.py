@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional, Set
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 
 from app import db, models
 
@@ -18,18 +18,23 @@ def create_todo(create_todo: models.CreateTodo) -> models.Todo:
     return todo
 
 
-@router.get("/", response_model=List[models.Todo])
+@router.get("", response_model=List[models.Todo])
 def get_todos(
     state: Optional[models.TodoState] = None,
     start_time: Optional[datetime] = None,
     end_time: Optional[datetime] = None,
-    tags: Optional[Set[str]] = None,
+    tags: Optional[List[str]] = Query(None),
     limit: Optional[int] = None,
     offset: Optional[int] = None,
 ) -> List[models.Todo]:
     conn = db.get_connection()
+    if tags is not None:
+        tag_set: Optional[Set[str]] = set(tags)
+    else:
+        tag_set = None
+
     todos = db.get_filtered_todos(
-        conn, state, start_time, end_time, tags, limit, offset
+        conn, state, start_time, end_time, tag_set, limit, offset
     )
     return todos
 
