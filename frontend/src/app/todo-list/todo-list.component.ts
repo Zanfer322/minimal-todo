@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { Todo } from '../models';
 import { TodoService } from '../todo.service';
 
@@ -16,21 +16,12 @@ export class TodoListComponent implements OnInit {
     this.todoList = await this.todoService.getAllTodo();
   }
 
-  async createTag() {
-    // await this.todoService.createTag('fly');
-    // await this.todoService.createTag('SapComponent');
-    // let todo = await this.todoService.createTodo({
-    //   contents: 'This one has many tags',
-    //   tags: [],
-    // });
-    // await this.todoService.updateTodo({
-    //   id: 'de2d619bd8f6475aa40c7f9c0a469ebd',
-    //   contents: 'Do something quickly. This has no tags.',
-    //   tags: [],
-    //   state: 'cancelled',
-    // });
-    // console.log(todo);
-    // let todoList = await this.todoService.getAllTodo();
-    // console.log(todoList);
+  async createTodo(): Promise<void> {
+    let todo = await this.todoService.createTodo({ contents: '', tags: [] });
+    this.todoList.push(todo);
+  }
+
+  handleKeyboard() {
+    console.log('Got keyboard event');
   }
 }

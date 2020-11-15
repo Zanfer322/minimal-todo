@@ -1,9 +1,12 @@
-<p>todo-list works!</p>
-
-<button (click)="createTag()">Create Tag</button>
-
 <div class="center">
   <div class="todo-list">
     <app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>
   </div>
+  <i
+    class="todo-add fas fa-plus"
+    (click)="createTodo()"
+    (window:keydown.control.k)="
+      createTodo(); $event.preventDefault(); $event.stopPropagation()
+    "
+  ></i>
 </div>
