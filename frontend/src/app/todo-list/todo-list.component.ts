@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
-import { Todo } from '../models';
+import { Todo, TodoState } from '../models';
 import { TagAddService } from '../tag-add.service';
 import { TodoFilterService } from '../todo-filter.service';
 import { TodoService } from '../todo.service';
@@ -15,6 +15,9 @@ export class TodoListComponent implements OnInit {
   activeTags: string[];
   searchTerm: string;
 
+  states: TodoState[];
+  activeStates: TodoState[];
+
   constructor(
     private todoService: TodoService,
     private todoFilter: TodoFilterService,
@@ -27,6 +30,8 @@ export class TodoListComponent implements OnInit {
     );
     this.todoService.tags.subscribe((tags) => (this.tags = tags));
     this.activeTags = [];
+    this.states = ['ongoing', 'done', 'cancelled'];
+    this.activeStates = [];
   }
 
   async createTodo(): Promise<void> {
@@ -61,5 +66,15 @@ export class TodoListComponent implements OnInit {
       }
       this.todoService.createTag(tag);
     });
+  }
+
+  async toggleState(state: TodoState) {
+    let index = this.activeStates.indexOf(state);
+    if (index == -1) {
+      this.activeStates.push(state);
+    } else {
+      this.activeStates.splice(index, 1);
+    }
+    await this.todoFilter.setState(this.activeStates);
   }
 }

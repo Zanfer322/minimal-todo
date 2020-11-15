@@ -9,7 +9,7 @@ import { TodoService } from './todo.service';
 export class TodoFilterService {
   tags?: string[];
   searchTerm?: string;
-  state?: TodoState;
+  states?: TodoState[];
 
   todoList: BehaviorSubject<Todo[]>;
 
@@ -46,15 +46,19 @@ export class TodoFilterService {
 
   async setTags(tags: string[]) {
     if (tags.length == 0) {
-      this.tags == undefined;
+      this.tags = undefined;
     } else {
       this.tags = tags;
     }
     await this.updateTodoList();
   }
 
-  async setState(state?: TodoState) {
-    this.state = state;
+  async setState(states: TodoState[]) {
+    if (states.length == 0) {
+      this.states = undefined;
+    } else {
+      this.states = states;
+    }
     await this.updateTodoList();
   }
 
@@ -68,8 +72,8 @@ export class TodoFilterService {
       let todoList = await this.todoService.searchTodo({
         searchTerm: this.searchTerm,
       });
-      if (this.state != null) {
-        todoList = todoList.filter((todo) => todo.state == this.state);
+      if (this.states != null) {
+        todoList = todoList.filter((todo) => this.states.includes(todo.state));
       }
       if (this.tags != null) {
         todoList = todoList.filter((todo) => {
@@ -85,12 +89,26 @@ export class TodoFilterService {
       return;
     }
 
-    let filter: FilterTodo = {
-      tags: this.tags,
-      state: this.state,
-    };
-    console.log(filter);
-    let todoList = await this.todoService.getAllTodo(filter);
+    if (this.states == null) {
+      let filter: FilterTodo = {
+        tags: this.tags,
+      };
+      console.log(filter);
+      let todoList = await this.todoService.getAllTodo(filter);
+      this.todoList.next(todoList);
+      return;
+    }
+
+    let todoList: Todo[] = [];
+    for (let state of this.states) {
+      let filter: FilterTodo = {
+        tags: this.tags,
+        state: state,
+      };
+      console.log(filter);
+      let ret = await this.todoService.getAllTodo(filter);
+      todoList = [...todoList, ...ret];
+    }
     this.todoList.next(todoList);
   }
 }

@@ -8,6 +8,16 @@
     />
     <i (click)="updateSearch()" class="fas fa-search"></i>
   </div>
+  <div class="top-state-list">
+    <div
+      *ngFor="let state of states"
+      class="top-tag"
+      [ngClass]="activeStates.includes(state) ? 'top-tag-active' : ''"
+      (click)="toggleState(state)"
+    >
+      {{ state }}
+    </div>
+  </div>
   <div class="top-tag-list">
     <div
       *ngFor="let tag of tags"
