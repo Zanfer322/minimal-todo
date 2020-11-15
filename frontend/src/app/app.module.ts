@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TodoComponent } from './todo/todo.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { ToastComponent } from './toast/toast.component';
+import { TagAddComponent } from './tag-add/tag-add.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ToastComponent } from './toast/toast.component';
     TodoComponent,
     TodoListComponent,
     ToastComponent,
+    TagAddComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Todo } from '../models';
+import { TagAddService } from '../tag-add.service';
 import { ToastService } from '../toast.service';
 import { TodoService } from '../todo.service';
 
@@ -20,7 +21,11 @@ export class TodoComponent implements OnInit, AfterViewInit {
 
   @ViewChild('todoContent') todoContent: ElementRef<HTMLDivElement>;
 
-  constructor(private todoService: TodoService, private toast: ToastService) {}
+  constructor(
+    private todoService: TodoService,
+    private toast: ToastService,
+    private tagAdd: TagAddService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -63,6 +68,29 @@ export class TodoComponent implements OnInit, AfterViewInit {
       title: 'Focus lost',
       message: this.todoContent.nativeElement.textContent,
     });
+  }
+
+  async addTag() {
+    console.log('Adding a new tag');
+    let tags = await this.todoService.getAllTags();
+    this.tagAdd.getTagToAdd(
+      tags.map((tag) => tag.name),
+      (tag) => {
+        console.log(`Tag is ${tag}`);
+        if (tag == null) {
+          console.log('No tag received');
+          return;
+        }
+        this.todo.tags.push(tag);
+        this.updateTodo();
+      }
+    );
+  }
+
+  async removeTag(tag: string) {
+    let index = this.todo.tags.indexOf(tag);
+    this.todo.tags.splice(index, 1);
+    await this.updateTodo();
   }
 
   private async updateTodo() {

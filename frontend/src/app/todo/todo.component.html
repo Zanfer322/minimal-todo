@@ -27,12 +27,14 @@
       [ngClass]="todo.state == 'cancelled' ? 'dim' : ''"
       (blur)="contentFocusLost()"
     ></div>
-    <div class="todo-tag-list" *ngIf="todo.tags.length">
+    <div class="todo-tag-list">
       <div class="todo-tag" *ngFor="let tag of todo.tags">
         {{ tag }}
-        <i class="tag-close fa fa-times"></i>
+        <i class="tag-close fa fa-times" (click)="removeTag(tag)"></i>
       </div>
-      <div class="todo-tag-add"><i class="fa fa-plus"></i></div>
+      <div class="todo-tag-add">
+        <i class="fa fa-plus" (click)="addTag()"></i>
+      </div>
     </div>
   </div>
   <div class="todo-bin">
