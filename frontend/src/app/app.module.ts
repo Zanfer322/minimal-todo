@@ -8,6 +8,7 @@ import { TodoComponent } from './todo/todo.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { ToastComponent } from './toast/toast.component';
 import { TagAddComponent } from './tag-add/tag-add.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { TagAddComponent } from './tag-add/tag-add.component';
     ToastComponent,
     TagAddComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

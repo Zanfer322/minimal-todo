@@ -1,4 +1,13 @@
 <div class="center">
+  <div class="top-search">
+    <input
+      [(ngModel)]="searchTerm"
+      type="text"
+      placeholder="search"
+      (keydown.enter)="updateSearch()"
+    />
+    <i (click)="updateSearch()" class="fas fa-search"></i>
+  </div>
   <div class="todo-list">
     <app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>
   </div>

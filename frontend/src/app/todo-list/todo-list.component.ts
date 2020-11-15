@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { Todo } from '../models';
+import { TodoFilterService } from '../todo-filter.service';
 import { TodoService } from '../todo.service';
 
 @Component({
@@ -9,11 +10,17 @@ import { TodoService } from '../todo.service';
 })
 export class TodoListComponent implements OnInit {
   todoList: Todo[];
+  searchTerm: string;
 
-  constructor(private todoService: TodoService) {}
+  constructor(
+    private todoService: TodoService,
+    private todoFilter: TodoFilterService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    this.todoList = await this.todoService.getAllTodo();
+    this.todoFilter.todoList.subscribe(
+      (todoList) => (this.todoList = todoList)
+    );
   }
 
   async createTodo(): Promise<void> {
@@ -21,7 +28,12 @@ export class TodoListComponent implements OnInit {
     this.todoList.push(todo);
   }
 
-  handleKeyboard() {
-    console.log('Got keyboard event');
+  async updateSearch() {
+    console.log(this.searchTerm);
+    if (this.searchTerm == null || this.searchTerm == '') {
+      await this.todoFilter.setSearchTerm(undefined);
+    } else {
+      await this.todoFilter.setSearchTerm(this.searchTerm);
+    }
   }
 }

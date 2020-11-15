@@ -143,27 +143,41 @@ export class TodoService {
   }
 
   private toFilterParams(filter: FilterTodo): HttpParams {
-    let params = new HttpParams({
-      fromObject: {
-        state: filter.state,
-        start_time: filter.startTime?.toISOString(),
-        end_time: filter.endTime?.toISOString(),
-        tags: filter.tags,
-        limit: filter.limit.toString(),
-        offset: filter.limit.toString(),
-      },
-    });
+    let params = new HttpParams();
+    if (filter.state != null) {
+      params = params.set('state', filter.state);
+    }
+    if (filter.startTime != null) {
+      params = params.set('start_time', filter.startTime.toISOString());
+    }
+    if (filter.endTime != null) {
+      params = params.set('end_time', filter.endTime.toISOString());
+    }
+    if (filter.tags != null) {
+      for (let tag of filter.tags) {
+        params = params.append('tags', tag);
+      }
+    }
+    if (filter.limit != null) {
+      params = params.set('limit', filter.limit.toString());
+    }
+    if (filter.offset != null) {
+      params = params.set('offset', filter.offset.toString());
+    }
     return params;
   }
 
   private toSearchParams(search: SearchTodo): HttpParams {
-    let params = new HttpParams({
-      fromObject: {
-        search_term: search.searchTerm,
-        limit: search.limit.toString(),
-        offset: search.offset.toString(),
-      },
-    });
+    let params = new HttpParams();
+    if (search.searchTerm != null) {
+      params = params.set('search_term', search.searchTerm);
+    }
+    if (search.limit != null) {
+      params = params.set('limit', search.limit.toString());
+    }
+    if (search.offset != null) {
+      params = params.set('offset', search.offset.toString());
+    }
     return params;
   }
 
