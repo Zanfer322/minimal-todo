@@ -1,0 +1,41 @@
+.toast-list {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 20px;
+  top: 10px;
+  min-width: 20%;
+  max-width: 40%;
+}
+
+.toast {
+  color: white;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.toast-title {
+  font-weight: bold;
+}
+
+.toast-content {
+  white-space: pre-wrap;
+}
+
+.toast-close {
+  float: right;
+  cursor: pointer;
+}
+
+.toast-info {
+  background-color: #1976d2;
+}
+
+.toast-success {
+  background-color: #388e3c;
+}
+
+.toast-error {
+  background-color: #d32f2f;
+}

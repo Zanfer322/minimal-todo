@@ -1,0 +1,48 @@
+.tag-add {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: hsla(0, 0%, 0%, 50%);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-box {
+  position: relative;
+  background-color: hsla(0, 0%, 0%, 60%);
+  padding: 3em;
+  padding-bottom: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-text {
+  margin-top: 1em;
+}
+
+.tag-box > select {
+  padding: 0.5em;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.tag-box > input {
+  padding: 0.5em;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.tag-close {
+  float: right;
+  position: absolute;
+  top: 0.2em;
+  right: 0.5em;
+  cursor: pointer;
+}

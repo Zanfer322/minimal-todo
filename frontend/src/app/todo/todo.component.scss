@@ -1,0 +1,117 @@
+.todo {
+  display: flex;
+  align-items: center;
+
+  padding: 0.5em 0;
+  border-bottom: 2px solid #eceff1;
+}
+
+.todo-content {
+  font-size: 1.5em;
+  padding: 1em;
+  flex-grow: 1;
+}
+
+.content-holder {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.state-holder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 0.5em;
+}
+
+.todo-state {
+  font-size: 2.5em;
+  cursor: pointer;
+}
+
+.todo-done {
+  color: #00e676;
+}
+
+.todo-cancelled {
+  color: #cfd8dc;
+  cursor: default;
+}
+
+.dim {
+  color: #90a4ae;
+}
+
+.todo-time {
+  font-size: 0.8em;
+  color: #90a4ae;
+  white-space: nowrap;
+}
+
+.todo-bin {
+  color: #90a4ae;
+  cursor: pointer;
+  margin: 0 1em;
+  visibility: hidden;
+}
+
+.todo:hover > .todo-bin {
+  visibility: visible;
+}
+
+.todo-bin:hover {
+  color: black;
+}
+
+[contenteditable]:focus {
+  outline: 0px;
+}
+
+.todo-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 0 auto;
+  margin-left: 1em;
+
+  min-width: 2em;
+  min-height: 2em;
+}
+
+.todo-tag {
+  background-color: #eeeeee;
+  padding: 0.5em 1em;
+  margin: 0.5em 0.5em;
+  font-size: 0.8em;
+
+  border-radius: 0.3em;
+  white-space: nowrap;
+}
+
+.tag-close {
+  color: #757575;
+  padding-left: 0.5em;
+  cursor: pointer;
+  display: none;
+}
+
+.todo-tag:hover > .tag-close {
+  display: inline;
+}
+
+.todo-tag-add {
+  background-color: #eeeeee;
+  padding: 0.5em 0.75em;
+  margin: 0.5em 0.5em;
+  font-size: 0.8em;
+
+  border-radius: 0.3em;
+  color: #757575;
+  display: none;
+  cursor: pointer;
+}
+
+.todo-tag-list:hover > .todo-tag-add {
+  display: inline;
+}

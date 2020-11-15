@@ -1,0 +1,19 @@
+<div *ngIf="visible" class="tag-add">
+  <div class="tag-box">
+    <div class="tag-close">
+      <i (click)="returnActiveTag()" class="fas fa-times"></i>
+    </div>
+    <select
+      *ngIf="choices; else elseBlock"
+      (change)="tag = $event.target.value"
+    >
+      <option value="NN" selected>None</option>
+      <option [value]="x" *ngFor="let x of choices">{{ x }}</option>
+    </select>
+    <ng-template #elseBlock>
+      <input type="text" placeholder="tag" [(ngModel)]="tag" />
+    </ng-template>
+
+    <div class="add-text">Choose tag to add</div>
+  </div>
+</div>

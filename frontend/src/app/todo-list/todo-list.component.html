@@ -1,0 +1,47 @@
+<div class="center">
+  <div class="top-search">
+    <input
+      [(ngModel)]="searchTerm"
+      type="text"
+      placeholder="search"
+      (keydown.enter)="updateSearch()"
+    />
+    <i (click)="updateSearch()" class="fas fa-search"></i>
+  </div>
+  <div class="top-state-list">
+    <div
+      *ngFor="let state of states"
+      class="top-tag"
+      [ngClass]="activeStates.includes(state) ? 'top-tag-active' : ''"
+      (click)="toggleState(state)"
+    >
+      {{ state }}
+    </div>
+  </div>
+  <div class="top-tag-list">
+    <div
+      *ngFor="let tag of tags"
+      class="top-tag"
+      [ngClass]="activeTags.includes(tag) ? 'top-tag-active' : ''"
+      (click)="toggleTag(tag)"
+    >
+      {{ tag }}
+    </div>
+    <div class="top-tag-add">
+      <i (click)="addTag()" class="fas fa-plus"></i>
+    </div>
+  </div>
+  <div class="todo-bunch-list" *ngFor="let bunch of todoBunches">
+    <div class="todo-day">{{ bunch?.day }}</div>
+    <div class="todo-list">
+      <app-todo *ngFor="let todo of bunch?.todoList" [todo]="todo"> </app-todo>
+    </div>
+  </div>
+  <i
+    class="todo-add fas fa-plus"
+    (click)="createTodo()"
+    (window:keydown.control.k)="
+      createTodo(); $event.preventDefault(); $event.stopPropagation()
+    "
+  ></i>
+</div>
