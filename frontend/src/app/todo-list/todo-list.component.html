@@ -31,8 +31,11 @@
       <i (click)="addTag()" class="fas fa-plus"></i>
     </div>
   </div>
-  <div class="todo-list">
-    <app-todo *ngFor="let todo of todoList" [todo]="todo"> </app-todo>
+  <div class="todo-bunch-list" *ngFor="let bunch of todoBunches">
+    <div class="todo-day">{{ bunch?.day }}</div>
+    <div class="todo-list">
+      <app-todo *ngFor="let todo of bunch?.todoList" [todo]="todo"> </app-todo>
+    </div>
   </div>
   <i
     class="todo-add fas fa-plus"

@@ -62,12 +62,6 @@ export class TodoComponent implements OnInit, AfterViewInit {
     }
     this.todo.contents = newContent;
     await this.updateTodo();
-
-    this.toast.addToast({
-      type: 'info',
-      title: 'Focus lost',
-      message: this.todoContent.nativeElement.textContent,
-    });
   }
 
   async addTag() {
@@ -105,11 +99,5 @@ export class TodoComponent implements OnInit, AfterViewInit {
     }
     this.todo = todo;
     this.todoContent.nativeElement.textContent = todo.contents;
-
-    this.toast.addToast({
-      type: 'info',
-      title: 'Updated Todo',
-      message: 'Updated todo',
-    });
   }
 }
