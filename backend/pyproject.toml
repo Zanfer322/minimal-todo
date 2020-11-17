@@ -10,6 +10,7 @@ python = "^3.8"
 fastapi = "^0.61.1"
 uvicorn = "^0.12.2"
 pydantic = {extras = ["dotenv"], version = "^1.7.2"}
+aiofiles = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.790"

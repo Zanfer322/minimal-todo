@@ -25,7 +25,8 @@
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/todo/"
           },
           "configurations": {
             "production": {

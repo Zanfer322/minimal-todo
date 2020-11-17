@@ -28,7 +28,7 @@ def test_create_multiple_todos(client: TestClient) -> None:
     res = client.post("/api/todo/", json={"contents": "content 2", "tags": ["tag2"]})
     assert res.status_code == 200
 
-    res = client.get("/api/todo/")
+    res = client.get("/api/todo")
     assert res.status_code == 200
     data = res.json()
 
