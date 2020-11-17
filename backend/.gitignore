@@ -52,4 +52,4 @@ venv.bak/
 dmypy.json
 
 .vscode/
-test.db
+*.db
